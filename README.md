@@ -17,7 +17,7 @@ $ npm install -g novamarket
 $ novamarket COMMAND
 running command...
 $ novamarket (--version)
-novamarket/0.0.3 darwin-x64 node-v16.13.1
+novamarket/0.0.4 darwin-x64 node-v16.13.1
 $ novamarket --help [COMMAND]
 USAGE
   $ novamarket COMMAND
@@ -72,7 +72,7 @@ EXAMPLES
   $ novamarket history 6635
 ```
 
-_See code: [dist/commands/history.ts](https://github.com/judedaryl/novamarket/blob/v0.0.3/dist/commands/history.ts)_
+_See code: [dist/commands/history.ts](https://github.com/judedaryl/novamarket/blob/v0.0.4/dist/commands/history.ts)_
 
 ## `novamarket live ITEMID`
 
@@ -96,5 +96,5 @@ EXAMPLES
   $ novamarket live 6635
 ```
 
-_See code: [dist/commands/live.ts](https://github.com/judedaryl/novamarket/blob/v0.0.3/dist/commands/live.ts)_
+_See code: [dist/commands/live.ts](https://github.com/judedaryl/novamarket/blob/v0.0.4/dist/commands/live.ts)_
 <!-- commandsstop -->

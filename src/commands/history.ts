@@ -21,7 +21,7 @@ export default class History extends BaseCommand {
     const { args, flags } = await this.parse(History)
 
     const { itemId } = args;
-    let response = await this.market.getLive(itemId);
+    let response = await this.market.getHistory(itemId);
     if(flags.filter) {
       if(!flags.filter.includes('=')) {
         this.error('invalid filter format', {
@@ -38,10 +38,11 @@ export default class History extends BaseCommand {
     }
     response = response.slice(0, flags.top);
     CliUx.ux.table(response, {
+      date: {},
       price: {},
       qty: {},
       refine: {},
-      property: {}
+      property: {},
     })
   }
 }

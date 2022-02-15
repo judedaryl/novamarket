@@ -1,4 +1,5 @@
 export interface Items {
+    date: string;
     price: string;
     location: string;
     refine: string;

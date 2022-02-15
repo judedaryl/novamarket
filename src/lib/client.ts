@@ -13,7 +13,16 @@ export class NovaClient {
     }
 
     async getHistory(itemId: number) {
-        return this.client.get<ItemCacheResponse>(`data/cache/ajax/history_${itemId}.json`).then(q => q.data)
+        return this.client.get<ItemCacheResponse>(`data/cache/ajax/history_${itemId}.json`)
+            .then(q => q.data)
+            .then(q => q.data.map(w => ({
+                date: w.items.date,
+                qty: w.orders.qty || 1,
+                price: numberWithCommas(w.orders.price),
+                refine: w.orders.refine || 0,
+                location: w.orders.location?.replace(/\n/g, ''),
+                property: parseProperty(w.items.property)
+            })))
     }
 
     async getLive(itemId: number) {
@@ -46,10 +55,10 @@ function parseProperty(property: string | undefined) {
 
 function numberWithCommas(x: number) {
     const val = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    if(x > 100000000) {
+    if (x > 100000000) {
         return chalk.magenta.bold(val)
     }
-    else if(x > 10000000) {
+    else if (x > 10000000) {
         return chalk.green.bold(val)
     }
     else {
