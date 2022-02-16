@@ -1,6 +1,5 @@
-import { string } from '@oclif/core/lib/parser/flags';
 import axios, { AxiosInstance } from 'axios';
-import { ItemCacheResponse } from './response';
+import { Datum, ItemCacheResponse } from './response';
 import * as chalk from 'chalk'
 
 export class NovaClient {
@@ -15,27 +14,25 @@ export class NovaClient {
     async getHistory(itemId: number) {
         return this.client.get<ItemCacheResponse>(`data/cache/ajax/history_${itemId}.json`)
             .then(q => q.data)
-            .then(q => q.data.map(w => ({
-                date: w.items.date,
-                qty: w.orders.qty || 1,
-                price: numberWithCommas(w.orders.price),
-                refine: w.orders.refine || 0,
-                location: w.orders.location?.replace(/\n/g, ''),
-                property: parseProperty(w.items.property)
-            })))
+            .then(q => q.data.map(normalizeDatum))
     }
 
     async getLive(itemId: number) {
         return this.client.get<ItemCacheResponse>(`data/cache/ajax/item_${itemId}.json`)
             .then(q => q.data)
-            .then(q => q.data.map(w => ({
-                qty: w.orders.qty || 1,
-                price: numberWithCommas(w.orders.price),
-                refine: w.orders.refine || 0,
-                location: w.orders.location?.replace(/\n/g, ''),
-                property: parseProperty(w.items.property)
-            })))
+            .then(q => q.data.map(normalizeDatum))
     }
+}
+
+function normalizeDatum(datum: Datum) {
+    return ({
+        date: datum.items.date ?? undefined,
+        qty: datum.orders.qty || 1,
+        price: numberWithCommas(datum.orders.price),
+        refine: datum.orders.refine || 0,
+        location: datum.orders.location?.replace(/\n/g, ''),
+        property: parseProperty(datum.items.property)
+    })
 }
 
 function parseProperty(property: string | undefined) {
